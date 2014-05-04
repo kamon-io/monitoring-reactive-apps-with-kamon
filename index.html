@@ -37,8 +37,7 @@
 
         <section>
           <h2>Monitoring Reactive Apps <br>with Kamon</h2>
-          <br>
-          <br>
+          <img src="img/kamon-verde-256x256.png">
           <br>
           <br>
           <p>Presented by Ivan Topolnjak / <a href="https://twitter.com/ivantopo">@ivantopo</a></p>
@@ -258,7 +257,7 @@
           <br>
           <ul>
             <li>
-              Wrap the code where your business transaction starts like this:.
+              Wrap the code where your business transaction starts like this:
               <pre><code>
   TraceRecorder.withNewTraceContext("load-user-data") {
     userService ! UserService.Find(username)
@@ -366,9 +365,233 @@
           <h3>Trace Segments</h3>
           <br>
           <img src="img/segments.png">
+          <br>
+          <br>
+          <ul>
+            <li>Piece of functionality that happens inside a trace.</li>
+            <li>Might be used from different traces.</li>
+          </ul>
         </section>
 
+
+        <section>
+          <h3>Simple Segments API</h3>
+          <br>
+          <br>
+          <ul>
+            <li>
+              Start a segment from any point in your application using the TraceRecorder:
+              <pre><code>
+  val segmentCompletionHandle = TraceRecorder.startSegment(HttpClientRequest("google"))
+              </code></pre>
+            </li>
+            <br>
+            <li>
+              Finish the segment and metrics will be generated for the segment too!
+              <pre><code>
+  segmentCompletionHandle.finish()
+              </code></pre>
+            </li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Let's go even deeper!</h2>
+        </section>
+
+
+        <section>
+          <h3>Actor System Metrics</h3>
+          <br>
+          <br>
+          <ul>
+            <li>
+              Actor Metrics:
+              <ul>
+                <li>processing-time: Time taken by the actor to process each message</li>
+                <li>mailbox-size: Size of the mailbox per Actor</li>
+                <li>time-in-mailbox: Time spent since a message was put in a mailbox until it's processing starts</li>
+              </ul>
+            </li>
+            <br>
+            <li>
+              Dispatcher Metrics:
+              <ul>
+                <li>queue-size: Dispatcher queue size</li>
+                <li>active-threads: Number of active threads</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h3>User Metrics</h3>
+          <br>
+          <br>
+          <p>Simple and useful instruments based on the same <br>cool stuff we already saw:</p>
+          <ul>
+            <li>Counters</li>
+            <li>Histograms</li>
+            <li>Gauges</li>
+          </ul>
+          <br>
+          <br>
+          <br>
+          <p>All of them at your service, for whatever use you want.</p>
+        </section>
+
+
+        <section>
+          <h2>Tools for fun and profit</h2>
+        </section>
+
+
+        <section>
+          <h3>Trace Token Logging</h3>
+          <br>
+          <pre><code>
+  22:24:07.197 INFO  [undefined] Upper casing [Hello without context]
+  22:24:07.198 INFO  [undefined] Upper casing [Hello without context]
+  22:24:07.198 INFO  [undefined] Calculating the length of: [HELLO WITHOUT CONTEXT]
+  22:24:07.199 INFO  [undefined] Upper casing [Hello without context]
+  22:24:07.200 INFO  [undefined] Upper casing [Hello without context]
+  22:24:07.200 INFO  [undefined] Upper casing [Hello without context]
+  22:24:07.204 INFO  [undefined] Calculating the length of: [HELLO WITHOUT CONTEXT]
+  22:24:07.205 INFO  [undefined] Calculating the length of: [HELLO WITHOUT CONTEXT]
+  22:24:07.205 INFO  [undefined] Calculating the length of: [HELLO WITHOUT CONTEXT]
+  22:24:07.206 INFO  [undefined] Calculating the length of: [HELLO WITHOUT CONTEXT]
+          </code></pre>
+          <br>
+          <p>No monitoring info: logs nightmare!</p>
+        </section>
+
+
+        <section>
+          <h3>Trace Token Logging</h3>
+          <br>
+          <pre><code>
+  22:24:07.197 INFO  [localhost-1] Upper casing [Hello with context]
+  22:24:07.198 INFO  [localhost-2] Upper casing [Hello with context]
+  22:24:07.198 INFO  [localhost-1] Calculating the length of: [HELLO WITH CONTEXT]
+  22:24:07.199 INFO  [localhost-3] Upper casing [Hello with context]
+  22:24:07.200 INFO  [localhost-4] Upper casing [Hello with context]
+  22:24:07.200 INFO  [localhost-5] Upper casing [Hello with context]
+  22:24:07.204 INFO  [localhost-2] Calculating the length of: [HELLO WITH CONTEXT]
+  22:24:07.205 INFO  [localhost-3] Calculating the length of: [HELLO WITH CONTEXT]
+  22:24:07.205 INFO  [localhost-4] Calculating the length of: [HELLO WITH CONTEXT]
+  22:24:07.206 INFO  [localhost-5] Calculating the length of: [HELLO WITH CONTEXT]
+          </code></pre> 
+          <br>
+          <p>TraceToken in logs: everything makes sense! (and is grep friendly)</p>
+        </section>
+
+
+        <section>
+          <h3>Automatic Trace Token Propagation</h3>
+          <br>
+          <img src="img/trace-token-propagation.png">
+          <br>
+        </section>
+
+
+        <section>
+          <h3>Automatic Trace Token Propagation</h3>
+          <br>
+          <p>
+            <h5>Trace Token Logging</h5>
+            <pre><code>
+  22:24:07.197 INFO  [search-host-01-54820] Searching cheapest hotels for: 'Zagreb'
+            </code></pre> 
+          </p>
+          <h4>+</h4>
+          <p>
+            <h5>Automatic Trace Token Propagation</h5>
+            <pre><code>
+  X-Trace-Token: "search-host-01-54820"
+            </code></pre> 
+          </p>
+          <h4>+</h4>
+          <h4>Log aggregator (splunk, elasticsearch) = </h4>
+          <br>
+          <h3 style="color: forestgreen">Distributed Trace</h3> 
+        </section>
+
+
+        <section>
+          <h3>Spray Integration</h3>
+          <br>
+          <ul>
+            <li>Automatic trace start and finish.</li>
+            <li>Automatic segment recognition for <br>spray-client HTTP requests.</li>
+            <li>Automatic trace token propagation.</li>
+          </ul>
+        </section>
         
+
+        <section>
+          <h3>Play! Integration</h3>
+          <br>
+          <ul>
+            <li>Automatic trace start and finish.</li>
+            <li>Automatic segment recognition for <br>WS HTTP requests.</li>
+            <li>Automatic trace token propagation.</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Metric Backends</h2>
+        </section>
+
+
+        <section>
+          <h3>StatsD</h3>
+          <br>
+          <ul>
+            <li>Actor System Metrics.</li>
+            <li>Trace Metrics.</li>
+            <li>Segment Metrics.</li>
+            <li>Endless integration posibilities.</li>
+            <li>Docker <a href="http://kamon.io/teamblog/2014/04/27/get-started-quicker-with-our-docker-image/">image</a> with predefined dashboard.</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h3>StatsD</h3>
+          <img src="img/kamon-grafana-dashboard-actors.png">
+        </section>
+
+
+        <section>
+          <h3>StatsD</h3>
+          <br>
+          <img src="img/kamon-grafana-dashboard-traces.png">
+        </section>
+
+
+        <section>
+          <h3>New Relic</h3>
+          <br>
+          <ul>
+            <li>Trace Metrics.</li>
+            <li>More metrics will come shortly.</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h3>New Relic</h3>
+          <br>
+          <img src="img/newrelic.png">
+        </section>
+
+
+        <section>
+          <h2>Questions?</h2>
+        </section>
       </div>
     </div>
 
