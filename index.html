@@ -20,9 +20,15 @@
     <!-- For syntax highlighting -->
     <link rel="stylesheet" href="lib/css/zenburn.css">
 
-    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
     <script>
-      document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+      if( window.location.search.match( /print-pdf/gi ) ) {
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = 'css/print/pdf.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
     </script>
 
     <!--[if lt IE 9]>
@@ -160,7 +166,9 @@
 
 
         <section>
+          <br><br><br><br><br>
           <h2>Tool Mapping</h2>  
+          <br><br><br><br><br>
         </section>
         
 
@@ -307,6 +315,7 @@
 
 
         <section>
+          <br><br><br>
           <h3>The answer is simple: </h3>
           <br>
           <h3 class="fragment" style="color: goldenrod">We don't know!</h3>
@@ -314,7 +323,9 @@
 
 
         <section>
+          <br><br><br><br><br>
           <h2>We will keep all the data and let you decide.</h2>
+          <br><br><br><br><br>
         </section>
 
 
@@ -330,12 +341,32 @@
 
 
         <section>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
           <h2>Is it even possible?</h2>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
         </section>
 
 
         <section>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
           <h2>Yes! Thanks to the HDR Histogram</h2>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
         </section>
 
 
@@ -357,7 +388,9 @@
 
 
         <section>
+          <br><br><br><br><br>
           <h2>Let's go deeper with segments</h2>
+          <br><br><br><br><br>
         </section>
 
 
@@ -397,7 +430,9 @@
 
 
         <section>
+          <br><br><br><br><br>
           <h2>Let's go even deeper!</h2>
+          <br><br><br><br><br>
         </section>
 
 
@@ -444,7 +479,9 @@
 
 
         <section>
+          <br><br><br><br><br>
           <h2>Tools for fun and profit</h2>
+          <br><br><br><br><br>
         </section>
 
 
@@ -542,7 +579,9 @@
 
 
         <section>
+          <br><br><br><br><br>
           <h2>Metric Backends</h2>
+          <br><br><br><br><br>
         </section>
 
 
@@ -590,7 +629,9 @@
 
 
         <section>
+          <br><br><br><br><br>
           <h2>Questions?</h2>
+          <br><br><br><br><br>
         </section>
       </div>
     </div>
